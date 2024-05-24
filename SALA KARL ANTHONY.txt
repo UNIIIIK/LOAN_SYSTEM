@@ -1,0 +1,228 @@
+# 1. Create a vector, scalar, matrix and tensor with values of your choosing using tf.constant()
+
+import tensorflow as tf
+
+A_vector = tf.constant([1,2])
+B_scalar = tf.constant(1)
+C_matrix = tf.constant([[1,2],
+                        [1,2]])
+D_tensor = tf.constant([[[1,2,3],
+                         [4,5,6],
+                         [7,8,9]],
+                        [[1,2,3],
+                         [4,5,6],
+                         [7,8,9]],
+                        [[1,2,3],
+                         [4,5,6],
+                         [7,8,9]]])
+     
+
+A_vector,B_scalar,C_matrix,D_tensor
+     
+(<tf.Tensor: shape=(2,), dtype=int32, numpy=array([1, 2], dtype=int32)>,
+ <tf.Tensor: shape=(), dtype=int32, numpy=1>,
+ <tf.Tensor: shape=(2, 2), dtype=int32, numpy=
+ array([[1, 2],
+        [1, 2]], dtype=int32)>,
+ <tf.Tensor: shape=(3, 3, 3), dtype=int32, numpy=
+ array([[[1, 2, 3],
+         [4, 5, 6],
+         [7, 8, 9]],
+ 
+        [[1, 2, 3],
+         [4, 5, 6],
+         [7, 8, 9]],
+ 
+        [[1, 2, 3],
+         [4, 5, 6],
+         [7, 8, 9]]], dtype=int32)>)
+
+#2-------------------------------------------------------------------------------------------------
+# 2. Find the shape, rank and size of the tensors you created in 1
+def shapeRankSize(name,i):
+  print("For {}:".format(name))
+  print("    Shape is {}".format(i.shape))
+  print("    Rank is {}".format(tf.rank(i)))
+  print("    Size is {}\n".format(tf.size(i).numpy()))
+     
+
+shapeRankSize("A_vector",A_vector)
+shapeRankSize("B_scalar",B_scalar)
+shapeRankSize("C_matrix",C_matrix)
+shapeRankSize("D_tensor",D_tensor)
+     
+For A_vector:
+    Shape is (2,)
+    Rank is 1
+    Size is 2
+
+For B_scalar:
+    Shape is ()
+    Rank is 0
+    Size is 1
+
+For C_matrix:
+    Shape is (2, 2)
+    Rank is 2
+    Size is 4
+
+For D_tensor:
+    Shape is (3, 3, 3)
+    Rank is 3
+    Size is 27
+#3--------------------------------------------------------------------------------------------
+# 3. Create two tensors containing random values between 0 and 1 with shape [5, 300]
+random_1 = tf.random.uniform(minval=0,maxval=1,shape=(5,300))
+random_2 = tf.random.uniform(minval=0,maxval=1,shape=(5,300))
+     
+
+random_1,random_2
+     
+(<tf.Tensor: shape=(5, 300), dtype=float32, numpy=
+ array([[0.25367653, 0.545701  , 0.05092764, ..., 0.7843523 , 0.20474672,
+         0.25257945],
+        [0.87413144, 0.5713234 , 0.49340272, ..., 0.05147302, 0.7414217 ,
+         0.32152867],
+        [0.77329075, 0.09909844, 0.68894374, ..., 0.8944365 , 0.8690311 ,
+         0.99511695],
+        [0.16495979, 0.65228474, 0.15524077, ..., 0.71613896, 0.06761277,
+         0.01030362],
+        [0.6026156 , 0.62095547, 0.71370745, ..., 0.04623818, 0.6529622 ,
+         0.5395181 ]], dtype=float32)>,
+ <tf.Tensor: shape=(5, 300), dtype=float32, numpy=
+ array([[0.5951171 , 0.9066895 , 0.2768706 , ..., 0.15216589, 0.91592944,
+         0.04550803],
+        [0.98098075, 0.87225544, 0.5849143 , ..., 0.1659249 , 0.9301661 ,
+         0.5614717 ],
+        [0.26508033, 0.3443123 , 0.5999162 , ..., 0.9119427 , 0.21901703,
+         0.04582667],
+        [0.691674  , 0.5605053 , 0.77519095, ..., 0.16174781, 0.35299206,
+         0.4065045 ],
+        [0.47475398, 0.98602927, 0.45725536, ..., 0.8427044 , 0.8156822 ,
+         0.9887512 ]], dtype=float32)>)
+#4-----------------------------------------------------------------------------------------
+# 4. Multiply the two tensors you created in 3 using matrix multiplication
+tf.matmul(random_1,tf.transpose(random_2))
+     
+<tf.Tensor: shape=(5, 5), dtype=float32, numpy=
+array([[69.62537 , 68.125374, 71.55382 , 68.36894 , 73.07286 ],
+       [76.53409 , 72.1938  , 71.87954 , 69.9794  , 70.28229 ],
+       [72.47273 , 69.71758 , 70.3788  , 67.2017  , 72.01838 ],
+       [75.56871 , 68.114395, 72.36357 , 72.501724, 73.48312 ],
+       [80.32418 , 71.98057 , 76.10319 , 69.99166 , 71.86922 ]],
+      dtype=float32)>
+#5-----------------------------------------------------------------------------------------
+# 5. Multiply the two tensors you created in 3 using dot product
+tf.tensordot(random_1,tf.transpose(random_2),axes=1)
+     
+<tf.Tensor: shape=(5, 5), dtype=float32, numpy=
+array([[69.62537 , 68.125374, 71.55382 , 68.36894 , 73.07286 ],
+       [76.53409 , 72.1938  , 71.87954 , 69.9794  , 70.28229 ],
+       [72.47273 , 69.71758 , 70.3788  , 67.2017  , 72.01838 ],
+       [75.56871 , 68.114395, 72.36357 , 72.501724, 73.48312 ],
+       [80.32418 , 71.98057 , 76.10319 , 69.99166 , 71.86922 ]],
+      dtype=float32)>
+#6-----------------------------------------------------------------------------------------
+# 6. Create a tensor with random values between 0 and 1 with shape [224, 224, 3].
+random_3 = tf.random.uniform([224, 224, 3],0,1)
+random_3
+     
+<tf.Tensor: shape=(224, 224, 3), dtype=float32, numpy=
+array([[[0.6409874 , 0.22637117, 0.08228004],
+        [0.10668731, 0.3416462 , 0.06779444],
+        [0.24152768, 0.45748377, 0.558697  ],
+        ...,
+        [0.91572034, 0.05856121, 0.18645883],
+        [0.43615448, 0.495749  , 0.4713453 ],
+        [0.4813831 , 0.6615608 , 0.4699434 ]],
+
+       [[0.8308327 , 0.20712626, 0.45692956],
+        [0.8435705 , 0.93862295, 0.40997362],
+        [0.42852247, 0.4438244 , 0.1691711 ],
+        ...,
+        [0.8608531 , 0.8384429 , 0.43722594],
+        [0.37835455, 0.41777384, 0.8003429 ],
+        [0.6522722 , 0.9815868 , 0.58316076]],
+
+       [[0.42451525, 0.12211645, 0.3200742 ],
+        [0.15865266, 0.6154766 , 0.2108233 ],
+        [0.7121235 , 0.37175322, 0.66367364],
+        ...,
+        [0.6054748 , 0.28109694, 0.91104186],
+        [0.8619945 , 0.8398019 , 0.5474285 ],
+        [0.2248038 , 0.5014621 , 0.31207132]],
+
+       ...,
+
+       [[0.5116918 , 0.6393769 , 0.27068245],
+        [0.5127686 , 0.20800698, 0.3720199 ],
+        [0.91238153, 0.423962  , 0.40142345],
+        ...,
+        [0.84823227, 0.2343626 , 0.2354213 ],
+        [0.5160568 , 0.19689715, 0.07862747],
+        [0.71653223, 0.19776893, 0.8193766 ]],
+
+       [[0.44471693, 0.85668683, 0.89012694],
+        [0.11407018, 0.84112096, 0.73498523],
+        [0.39132154, 0.83342266, 0.0682615 ],
+        ...,
+        [0.98550653, 0.8108566 , 0.06833816],
+        [0.03989899, 0.2365768 , 0.883358  ],
+        [0.8252219 , 0.47313404, 0.14168   ]],
+
+       [[0.5215143 , 0.9927213 , 0.2423755 ],
+        [0.67907286, 0.96010196, 0.8039671 ],
+        [0.24886882, 0.6204933 , 0.65286803],
+        ...,
+        [0.4164263 , 0.01875532, 0.89276063],
+        [0.03244019, 0.5766113 , 0.6242647 ],
+        [0.9589838 , 0.41907525, 0.7860999 ]]], dtype=float32)>
+#7---------------------------------------------------------------------------------------
+# 7. Find the min and max values of the tensor you created in 6
+print("{} is the min value and {} is the max value".format(tf.reduce_min(random_3).numpy(),tf.reduce_max(random_3).numpy()))
+     
+9.5367431640625e-07 is the min value and 0.9999924898147583 is the max value
+#8---------------------------------------------------------------------------------------
+# 8. Created a tensor with random values of shape [1, 224, 224, 3] then squeeze it to change the shape to [224, 224, 3]
+random_4 = tf.random.uniform([1,224,224,3])
+random_4.shape
+     
+TensorShape([1, 224, 224, 3])
+
+random_4_squeezed = tf.squeeze(random_4)
+random_4_squeezed.shape
+     
+TensorShape([224, 224, 3])
+#9----------------------------------------------------------------------------------------
+# 9. Create a tensor with shape [10] using your own choice of values, then find the index which has the maximum value.
+random_5 = tf.random.uniform([10],0,10)
+random_5
+     
+<tf.Tensor: shape=(10,), dtype=float32, numpy=
+array([8.910185  , 0.5774534 , 1.3227022 , 0.15825033, 6.672523  ,
+       0.739913  , 8.250674  , 2.011571  , 4.105343  , 0.36744833],
+      dtype=float32)>
+
+print("index {} has the maximum value".format(tf.argmax(random_5).numpy()))
+     
+index 0 has the maximum value
+#10-----------------------------------------------------------------------------------------
+# 10. One-hot encode the tensor you created in 9
+tf.cast(random_5.numpy().tolist(),tf.int32)
+     
+<tf.Tensor: shape=(10,), dtype=int32, numpy=array([8, 0, 1, 0, 6, 0, 8, 2, 4, 0], dtype=int32)>
+
+tf.one_hot(tf.cast(random_5.numpy().tolist(),tf.int32),depth=tf.size(random_5).numpy(),on_value="|",off_value="-")
+     
+<tf.Tensor: shape=(10, 10), dtype=string, numpy=
+array([[b'-', b'-', b'-', b'-', b'-', b'-', b'-', b'-', b'|', b'-'],
+       [b'|', b'-', b'-', b'-', b'-', b'-', b'-', b'-', b'-', b'-'],
+       [b'-', b'|', b'-', b'-', b'-', b'-', b'-', b'-', b'-', b'-'],
+       [b'|', b'-', b'-', b'-', b'-', b'-', b'-', b'-', b'-', b'-'],
+       [b'-', b'-', b'-', b'-', b'-', b'-', b'|', b'-', b'-', b'-'],
+       [b'|', b'-', b'-', b'-', b'-', b'-', b'-', b'-', b'-', b'-'],
+       [b'-', b'-', b'-', b'-', b'-', b'-', b'-', b'-', b'|', b'-'],
+       [b'-', b'-', b'|', b'-', b'-', b'-', b'-', b'-', b'-', b'-'],
+       [b'-', b'-', b'-', b'-', b'|', b'-', b'-', b'-', b'-', b'-'],
+       [b'|', b'-', b'-', b'-', b'-', b'-', b'-', b'-', b'-', b'-']],
+      dtype=object)>

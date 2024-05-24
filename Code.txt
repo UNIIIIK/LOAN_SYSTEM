@@ -1,0 +1,56 @@
+UPDATE BUTTON :
+
+if (dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a row to update", "No row Selected!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
+
+            DataRowView rowView = (DataRowView)selectedRow.DataBoundItem;
+            DataRow rowToUpdate = rowView.Row;
+
+            if(!(rowToUpdate is MaltoDataSet.CLIENTRow))
+            {
+                MessageBox.Show("The selected row cannot be updated", "Invalid Row type", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            MaltoDataSet.CLIENTRow cLIENTRowToUpdate = (MaltoDataSet.CLIENTRow)rowToUpdate;
+
+            cLIENTRowToUpdate.FirstName = textBox1.Text.Trim();
+            cLIENTRowToUpdate.Lastname = textBox2.Text.Trim();
+            cLIENTRowToUpdate.Residency = textBox3.Text.Trim();
+            cLIENTRowToUpdate.Birthday = dateTimePicker1.Value;
+
+            try
+            {
+                cLIENTTableAdapter.Update(maltoDataSet.CLIENT);
+
+                cLIENTBindingSource.ResetBindings(false);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("An error occured while updating the record","Invalid Row Type", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+
+
+
+ADD BUTTON:
+
+MaltoDataSet maltoDataSet = new MaltoDataSet();
+
+            MaltoDataSet.CLIENTRow newClientRow = maltoDataSet.CLIENT.NewCLIENTRow();
+            newClientRow.FirstName = textBox1.Text.Trim();
+            newClientRow.Lastname = textBox2.Text.Trim();
+            newClientRow.Residency = textBox3.Text.Trim();
+            newClientRow.Birthday = dateTimePicker1.Value;
+
+            maltoDataSet.CLIENT.AddCLIENTRow(newClientRow);
+
+            cLIENTTableAdapter.Update(maltoDataSet.CLIENT);
+
+            cLIENTBindingSource.DataSource = maltoDataSet.CLIENT;
+            cLIENTBindingSource.ResetBindings(false);
